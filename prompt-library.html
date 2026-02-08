@@ -849,7 +849,7 @@
         let content = promptContent.value;
         content = content.replace(/\$\{(.*?)\}/g, (match, variable) => {
           const input = document.getElementById(`input_${variable}`);
-          if (input /* && input.value */) {
+          if (input && input.value) {
             return `<span class="input-field">${input.value ?? ''}</span>`;
           }
           return `<span class="input-field">${variable}</span>`;
