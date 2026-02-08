@@ -845,11 +845,11 @@
       }
       
       // Update the displayed prompt with variable values, template parts, prefilled parts, and global templates
-      function updatePromptDisplay() {
+      function updatePromptDisplay(withoutVariableNames = false) {
         let content = promptContent.value;
         content = content.replace(/\$\{(.*?)\}/g, (match, variable) => {
           const input = document.getElementById(`input_${variable}`);
-          if (input && input.value) {
+          if (input && (withoutVariableNames || input.value)) {
             return `<span class="input-field">${input.value ?? ''}</span>`;
           }
           return `<span class="input-field">${variable}</span>`;
@@ -1262,14 +1262,16 @@
         copyToClipboard(promptJson.textContent, 'JSON copied to clipboard!');
       });
       copyPromptBtn.addEventListener('click', () => {
-        let text = promptPreview.innerText;
-        const inputs = variablesContainer.querySelectorAll('input');
-        inputs.forEach(input => {
-          const variableName = input.id.replace('input_', '');
-          const regex = new RegExp(`\\$\\{${variableName}\\}`, 'g');
-          text = text.replace(regex, input.value ?? '');
-        });
-        text = text.replace(/\[(.*?)\]/g, '$1');
+        updatePromptDisplay(true)
+          let text = promptPreview.innerText;
+          const inputs = variablesContainer.querySelectorAll('input');
+          inputs.forEach(input => {
+            const variableName = input.id.replace('input_', '');
+            const regex = new RegExp(`\\$\\{${variableName}\\}`, 'g');
+            text = text.replace(regex, input.value ?? '');
+          });
+          text = text.replace(/\[(.*?)\]/g, '$1');
+        updatePromptDisplay(false)
         copyToClipboard(text, 'Prompt copied to clipboard!');
       });
       toggleTemplateBtn.addEventListener('click', markAsTemplate);
