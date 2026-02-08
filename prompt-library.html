@@ -78,6 +78,9 @@
     textarea {
       min-height: 450px;
     }
+    #variablesContainer textarea {
+      min-height: 30px;
+    }
     /* Dark mode styles */
     .dark body {
       background-color: #1a202c;
@@ -295,7 +298,7 @@
               </button>
               <button id="cancelPromptBtn" class="ml-2 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-lg">
                 Reset
-              </button>              
+              </button>
               <button id="duplicatePromptBtn" class="ml-2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg">
                 Duplicate Prompt
               </button>
@@ -758,8 +761,7 @@
           label.className = 'block text-sm font-medium text-gray-700 mb-1';
           label.textContent = variable;
           label.htmlFor = `input_${variable}`;
-          const input = document.createElement('input');
-          input.type = 'text';
+          const input = document.createElement('textarea');
           input.id = `input_${variable}`;
           input.className = 'w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent';
           input.placeholder = `Enter ${variable}`;
